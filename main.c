@@ -8,13 +8,13 @@ int i, key;
 
 void getmessage()
 {
-    printf("Enter the plain text you wish to encrypt/decrypt");
+    printf("Enter the plain text you wish to encrypt/decrypt\n");
     scanf("%[^\n]s", text);
 }
 
 void getkey()
 {
-    printf("Enter a key");
+    printf("Enter a key\n");
     scanf("%d", &key);
     
 }
@@ -29,9 +29,6 @@ int main()
 int choice;
 getmessage();
 getkey();
-
-
-
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\n");
 scanf("%d", &choice);
 switch(choice) { 
@@ -61,7 +58,7 @@ switch(choice) {
         printf("Please enter the shift\n");
         break;
     }
-    //default: printf("\nPlease select a correct option");
+    default: printf("\nPlease select a correct option");
 }
 
 return 0;
@@ -105,3 +102,4 @@ void shifte()
 
 
 //Perhaps have a function to put each letter lower case and reuse
+//You have done this all wrong. You should be using the mod 26 method!. This is not that bad of a change but basically means i made no progress
