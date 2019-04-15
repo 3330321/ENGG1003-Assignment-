@@ -1,34 +1,12 @@
 #include <stdio.h>
+#include <ctype.h>
+#include <string.h>
 
-void shiftd(); //shift decrypt
-void shifte(); //shift encrypt
-
-char text[100], ch;
-int i, key;
-
-void getmessage()
-{
-    printf("Enter the plain text you wish to encrypt/decrypt\n");
-    scanf("%[^\n]s", text);
-}
-
-void getkey()
-{
-    printf("Enter a key\n");
-    scanf("%d", &key);
-    
-}
-
-
-
-
-
+char* shifte(char message[], int key);
 
 int main() 
 {
 int choice;
-getmessage();
-getkey();
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\n");
 scanf("%d", &choice);
 switch(choice) { 
@@ -48,7 +26,9 @@ switch(choice) {
     case 3: 
     {
         printf("You have chosen shift encrpytion\n");
-        shifte();
+        char message[100] = "abcedfghijklmnopqrstuvwxyz"; //alphabet is test text
+        char* result = shifte(message, -3); //where -3 is the test key
+        printf("result = %s\n", result);
         break;
     }
     case 4:
@@ -59,44 +39,38 @@ switch(choice) {
         break;
     }
     default: printf("\nPlease select a correct option");
-}
-
+    }
 return 0;
 }
 
-
-
-
-
-
-
-
-
-
-void shifte()
-{
-    for(int i=0; text[i] != '\0'; i++) //As i increases it goes through each character in the array untill the condition '\0' is met (void)
-    {
-     if(ch >= 'a' && ch <= 'z') //Check if the character is within the boundary. If it is you can simply add the shift
-     {
-         ch = ch + key; //adding the shift
-         if(ch > 'z'){ //Check if the character is outside the boundary. 
-             ch = ch - 'z' + 'a' - 1; //The character is outside the boundary. Due to ascii values we can return it to the begging of the alphabet
-         }
-         text[i]=ch;
-     }
-     else if(ch >= 'A' && ch <= 'Z')
-     {
-         ch = ch + key;
-         if(ch > 'Z')
-         {
-             ch = ch - 'Z' + 'A' - 1;
-         }
-         text[i] = ch;
-     }
+char* shifte(char message[], int key) { //Function for shift encryption
+    int i=0;
+    while(message[i] != '\0') { //While it is not void
+      char letter = message[i];
+      letter -= 'a';
+      letter += key;
+        
+      while (letter < 0) {  // if letter is negative, make it positive
+        letter += 26;
+      }
+        
+      letter %= 26;
+      letter += 'a';
+        
+      message[i] = letter;  // write new letter back to char array
+      
+      i++; 
     }
-    printf("Your encrypted message is: %s", text);
+    return message;
 }
+
+
+
+
+
+
+
+
 
 
 
