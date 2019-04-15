@@ -26,7 +26,7 @@ switch(choice) {
     case 3: 
     {
         printf("You have chosen shift encrpytion\n");
-        char message[100] = "abcedfghijklmnopqrstuvwxyz"; //alphabet is test text
+        char message[100] = "abcdefghijklmnopqrstuvwxyz"; //alphabet is test text
         char* result = shifte(message, -3); //where -3 is the test key
         printf("result = %s\n", result);
         break;
