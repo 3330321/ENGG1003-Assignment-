@@ -55,17 +55,24 @@ return 0;
 char* shifte(char text[], int key)
 {
 	int ascii;
+	int islowercase = 0;
 	char encrypted;
 	int text_length = strlen(text);
 	char *cipher_text=calloc(text_length,8);
 	for (int i = 0; i < text_length; i++)
 	{
 		ascii = (int)text[i];
+		if(ascii > 96 && ascii< 123) //Convert lower case to upper case
+		    ascii -= 32;
 		if (ascii > 64 && ascii < 91)
 		{
 			ascii = ascii - 65;
 			ascii = (ascii + key) % 26;
 			ascii = ascii + 65;
+			
+			if(islowercase==1)
+			ascii += 32;
+			
 			encrypted = (char)ascii;
 			cipher_text[i] = encrypted;
 		}
@@ -81,17 +88,27 @@ char* shiftd(char cipher_text[], int key)
 {
     {
 	int ascii;
+	int islowercase = 0;
 	char encrypted;
 	int text_length = strlen(cipher_text);
 	char *text=calloc(text_length,8);
 	for (int i = 0; i < text_length; i++)
 	{
 		ascii = (int)cipher_text[i];
+		
+		if(ascii > 96 && ascii< 123) //Convert lower case to upper case
+		    ascii -= 32;
+		    islowercase = 1;
+		    
 		if (ascii > 64 && ascii < 91)
 		{
 			ascii = ascii + 65;
 			ascii = (ascii - key) % 26;
 			ascii = ascii + 65;
+			
+			if(islowercase==1)
+			ascii += 32;
+			
 			encrypted = (char)ascii;
 			text[i] = encrypted;
 		}
