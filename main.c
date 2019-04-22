@@ -1,12 +1,13 @@
 #include <stdio.h>
-#include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 char* shifte(char message[], int key);
 
 int main() 
 {
 int choice;
+char message[100];
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\n");
 scanf("%d", &choice);
 switch(choice) { 
@@ -26,9 +27,13 @@ switch(choice) {
     case 3: 
     {
         printf("You have chosen shift encrpytion\n");
-        char message[100] = "abcdefghijklmnopqrstuvwxyz"; //alphabet is test text
-        char* result = shifte(message, -3); //where -3 is the test key
-        printf("result = %s\n", result);
+        printf("Please enter the plain text you wish to encrypt: \n");
+        scanf(" %s", message);
+        int key;
+        printf("Please enter the key: \n");
+        scanf("%d", &key);
+        printf("The encrypted text is: \n");
+        printf(" %s", shifte(message, key));
         break;
     }
     case 4:
@@ -43,29 +48,30 @@ switch(choice) {
 return 0;
 }
 
-char* shifte(char message[], int key) { //Function for shift encryption
-    int i=0;
-    while(message[i] != '\0') { //While it is not void
-      char letter = message[i];
-      letter -= 'a';
-      letter += key;
-        
-      while (letter < 0) {  // if letter is negative, make it positive
-        letter += 26;
-      }
-        
-      letter %= 26;
-      letter += 'a';
-        
-      message[i] = letter;  // write new letter back to char array
-      
-      i++; 
-    }
-    return message;
+char* shifte(char message[], int key)
+{
+	int ascii;
+	char encrypted;
+	int text_length = strlen(message);
+	char *cipher_text=calloc(text_length,8);
+	for (int i = 0; i < text_length; i++)
+	{
+		ascii = (int)message[i];
+		if (ascii > 64 && ascii < 91)
+		{
+			ascii = ascii - 65;
+			ascii = (ascii + key) % 26;
+			ascii = ascii + 65;
+			encrypted = (char)ascii;
+			cipher_text[i] = encrypted;
+		}
+		else
+		{
+			cipher_text[i] = message[i];
+		}
+	}
+	return cipher_text;
 }
-
-
-
 
 
 
