@@ -4,11 +4,15 @@
 
 char* shifte(char text[], int key);
 char* shiftd(char cipher_text[], int key);
+char* sube(char text[], char subkey[]);
+
+char encryption_alphabet;
 
 int main() 
 {
 int choice=-1;
 int key=0;
+char keysub[30];
 char text[300];
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\n");
 scanf("%d", &choice);
@@ -18,6 +22,14 @@ switch(choice) {
     {
         printf("You have chosen substitution encryption\n");
         printf("Please enter the plain text you wish to encrypt\n");
+        scanf("%[^\n]%*c", text);
+        printf("Please enter a key including all letters of the alphabet a-z\n");
+        scanf("%[^\n]%*c", keysub);
+        for(int i=0; i<26; i++)
+        {
+            printf("%c - %c\n", i+65, keysub[i]);
+        }
+        printf("%s", sube(keysub, text));
         break;
     }
     case 2:
@@ -122,3 +134,20 @@ char* shiftd(char cipher_text[], int key)
 }
 }
 
+char* sube(char keysub[], char text[]){
+    int ascii;
+    int text_length = strlen(text);
+    char *cipher_text = calloc(text_length, 8);
+    for(int i=0; i<text_length; i++)
+    {
+        ascii=(int)text[i];
+        if (ascii>64 && ascii<91)
+        {
+        ascii=text[i]-65;
+        cipher_text[i]=keysub[ascii];
+        } else {
+            cipher_text[i]=text[i];
+        }
+    }
+    return cipher_text;
+}
