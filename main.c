@@ -7,11 +7,12 @@ char* shiftd(char cipher_text[], int key);
 
 int main() 
 {
-int choice;
-int key;
+int choice=-1;
+int key=0;
 char text[300];
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\n");
 scanf("%d", &choice);
+while ((getchar()) != '\n');
 switch(choice) { 
     case 1: 
     {
@@ -30,7 +31,7 @@ switch(choice) {
     {
         printf("You have chosen shift encrpytion\n");
         printf("Please enter the plain text you wish to encrypt: \n");
-        scanf("%s", text);
+        scanf ("%[^\n]%*c", text);
         printf("Please enter the key: \n");
         scanf("%d", &key);
         printf("The encrypted text is: \n");
@@ -39,9 +40,9 @@ switch(choice) {
     }
     case 4:
     {
-        printf("You have chosen shift decrpytion/n");
+        printf("You have chosen shift decrpytion\n");
         printf("Please enter the cipher text you wish to decrypt\n");
-        scanf("%s", text);
+        scanf ("%[^\n]%*c", text);
         printf("Please enter the shift\n");
         scanf("%d", &key);
         printf("%s", shiftd(text, key));
