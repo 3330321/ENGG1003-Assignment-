@@ -5,8 +5,8 @@
 char* shifte(char text[], int key);
 char* shiftd(char cipher_text[], int key);
 char* sube(char text[], char subkey[]);
+char* subd(char keysub[], char cipher_text[]);
 
-char encryption_alphabet;
 
 int main() 
 {
@@ -23,7 +23,7 @@ switch(choice) {
         printf("You have chosen substitution encryption\n");
         printf("Please enter the plain text you wish to encrypt\n");
         scanf("%[^\n]%*c", text);
-        printf("Please enter a key including all letters of the alphabet a-z\n");
+        printf("Please enter a key including all letters A-Z\n");
         scanf("%[^\n]%*c", keysub);
         for(int i=0; i<26; i++)
         {
@@ -36,7 +36,14 @@ switch(choice) {
     {
         printf("You have chosen substitution decrpytion\n");
         printf("Please enter the cipher text you wish to decrypt\n");
-        printf("Please enter "); //How to do the substitution
+        scanf("%[^\n]%*c", text);
+        printf("Please enter a key including all letters A-Z\n");
+        scanf("%[^\n]%*c", keysub);
+        for(int i=0; i<26; i++)
+        {
+            printf("%c - %c\n", keysub[i], i+65);
+        }
+        printf("%s", subd(keysub, text));
         break;
     }
     case 3: 
@@ -143,7 +150,7 @@ char* sube(char keysub[], char text[]){
         ascii=(int)text[i];
         if (ascii>64 && ascii<91)
         {
-        ascii=text[i]-65;
+        ascii -= 65;
         cipher_text[i]=keysub[ascii];
         } else {
             cipher_text[i]=text[i];
@@ -151,3 +158,33 @@ char* sube(char keysub[], char text[]){
     }
     return cipher_text;
 }
+
+char* subd(char keysub[], char cipher_text[]){
+    char alphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    int ascii;
+    int text_length = strlen(cipher_text);
+    char *text = calloc(text_length, 8);
+    for(int i=0; i<text_length; i++)
+    {
+        ascii=(int)cipher_text[i];
+        if(ascii>64 && ascii<91)
+        {
+            for(int j=0; j<26; j++)
+            {
+                if(cipher_text[i]==keysub[j])
+                {
+                    text[i]=alphabet[j];
+                    break;
+                } else {
+                    continue;
+                }
+            }
+        } else {
+            text[i]=cipher_text[i];
+        }
+    }
+    return text;
+}
+
+
+
