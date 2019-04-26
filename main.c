@@ -17,7 +17,7 @@ int main()
 int choice=-1;
 int key=0;//This is the key in the shift cipher
 char keysub[30]; //This is the key in the substitution cipher
-char text[300]; //This is the text the user enters
+char text[300]; //This is the text the user enters. It can be a maximum of 300 characters
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\nPress 5 to bruteforce shift decryption\n");
 scanf("%d", &choice); //Scans for users choice
 while ((getchar()) != '\n'); //White the char entered is not a space
@@ -134,7 +134,7 @@ char* shifte(char text[], int key)
 	return cipher_text;
 }
 
-char* shiftd(char cipher_text[], int key)//This is the same as shift encryption except we minus the ascii first
+char* shiftd(char cipher_text[], int key)//This is the same as encryption except we minus the key
 {
     {
 	int ascii;
@@ -193,8 +193,9 @@ char* sube(char keysub[], char text[]){
 }
 
 char* subd(char keysub[], char cipher_text[]){
-    char alphabet[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M',  //An array for all letters
-                       'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}; //of the alphabet
+char alphabetuc[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M',  //An array for all letters
+                   'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}; //of the alphabet
+char alphabet[26]=
     int ascii;
     int text_length = strlen(cipher_text);
     char *text = calloc(text_length, 8);
@@ -210,7 +211,7 @@ char* subd(char keysub[], char cipher_text[]){
                                               //the letters are the same and thus, this letter is in the
                                               //cipher text.
                 {
-                    text[i]=alphabet[j];//Since keysub[j]=alphabet[j] we can fill the plaintext.
+                    text[i]=alphabetuc[j];//Since keysub[j]=alphabet[j] we can fill the plaintext.
                     break;
                 } else {
                     continue;
