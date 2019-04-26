@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+void lowercase(char keysublc[]);
 char* shifte(char text[], int key); //Function for shift encryption
 char* shiftd(char cipher_text[], int key); //Function for shift decryption
 char* sube(char text[], char subkey[]); //Function for substitutiton encryption
@@ -172,7 +173,10 @@ char* shiftd(char cipher_text[], int key)//This is the same as encryption except
 }
 }
 
-char* sube(char keysub[], char text[]){
+char* sube(char keysubuc[], char text[]){
+    char keysublc[26];
+    strncpy(keysublc, keysubuc, 26);
+    lowercase(keysublc);
     int ascii;
     int text_length = strlen(text);
     char *cipher_text = calloc(text_length, 8);
@@ -182,20 +186,28 @@ char* sube(char keysub[], char text[]){
         if (ascii>64 && ascii<91) //If the text is A-Z
         {
         ascii -= 65; //Eg. A=0, B=1...
-        cipher_text[i]=keysub[ascii]; //Eg. If the first char of the plaintext was A, its ascii value   
+        cipher_text[i]=keysubuc[ascii]; //Eg. If the first char of the plaintext was A, its ascii value   
                                       //is 0. If the key was QWERTY, keysub[ascii]=keysub[0]=Q. This means
                                       //A would be encrpyted to Q
-        } else {
+        } else if(ascii>96 && ascii<123)
+        {
+            ascii-=97;
+            cipher_text[i]=keysublc[ascii];
+        }
+        else {
             cipher_text[i]=text[i]; //Non A-Z characters stay the same
         }
     }
     return cipher_text;
 }
 
-char* subd(char keysub[], char cipher_text[]){
+char* subd(char keysubuc[], char cipher_text[]){
 char alphabetuc[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M',  //An array for all letters
                    'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}; //of the alphabet
-char alphabet[26]=
+char alphabetlc[26]= {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+char keysublc[26];
+strncpy(keysublc, keysubuc, 26);
+lowercase(keysublc);
     int ascii;
     int text_length = strlen(cipher_text);
     char *text = calloc(text_length, 8);
@@ -206,7 +218,7 @@ char alphabet[26]=
         {
             for(int j=0; j<26; j++)
             {
-                if(cipher_text[i]==keysub[j]) //As the for loop runs, it compares the cipher text and 
+                if(cipher_text[i]==keysubuc[j]) //As the for loop runs, it compares the cipher text and 
                                               //key text till theyre equal. At this point 'j', it means
                                               //the letters are the same and thus, this letter is in the
                                               //cipher text.
@@ -216,10 +228,39 @@ char alphabet[26]=
                 } else {
                     continue;
                 }
+             }
+            } else if(ascii>96 && ascii<123) {
+          for(int j=0; j<26; j++)
+            {
+                if(cipher_text[i]==keysublc[j]) //As the for loop runs, it compares the cipher text and 
+                                              //key text till theyre equal. At this point 'j', it means
+                                              //the letters are the same and thus, this letter is in the
+                                              //cipher text.
+                {
+                    text[i]=alphabetlc[j];//Since keysub[j]=alphabet[j] we can fill the plaintext.
+                    break;  
+                } else {
+                    continue;
+                }  
             }
-        } else {
+        }
+        else
+        {
             text[i]=cipher_text[i]; //Avoids characters outside of A-Z
         }
     }
     return text;
 }
+
+void lowercase(char keysublc[])
+{
+    int i = 0;
+   
+   while (keysublc[i] != '\0') {
+      if (keysublc[i] >= 'A' && keysublc[i] <= 'Z') {
+         keysublc[i] = keysublc[i] + 32;
+      }
+      i++;
+   }
+}
+
