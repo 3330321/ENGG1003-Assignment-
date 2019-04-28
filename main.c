@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-void lowercase(char keysublc[]);
+void lowercase(char keysublc[]); //Function to create a string of lower case alphabet
 char* shifte(char text[], int key); //Function for shift encryption
 char* shiftd(char cipher_text[], int key); //Function for shift decryption
 char* sube(char text[], char subkey[]); //Function for substitutiton encryption
@@ -18,7 +18,7 @@ int main()
 int choice=-1;
 int key=0;//This is the key in the shift cipher
 char keysub[30]; //This is the key in the substitution cipher
-char text[300]; //This is the text the user enters. It can be a maximum of 300 characters
+char text[600]; //This is the text the user enters. It can be a maximum of 300 characters
 printf("\nPress 1 for a substitution encrpytion\nPress 2 for a substitution decryption\nPress 3 for a shift encrpytion\nPress 4 for a shift decrpytion\nPress 5 to bruteforce shift decryption\n");
 scanf("%d", &choice); //Scans for users choice
 while ((getchar()) != '\n'); //White the char entered is not a space
@@ -88,7 +88,7 @@ switch(choice) { //Switch case to determine what encryption or decryption the us
         }
         printf("\nPlease select which number is the correct:\n");
         scanf("%d", &correct); //Allows the user to select the correct shift
-        printf("The decrypted cipher is: %s \nand the shift is %d\n", shiftd(text, correct), correct);
+        printf("The decrypted cipher is: %s and the shift is %d", shiftd(text, correct), correct);
         break;
     }
     
@@ -152,7 +152,7 @@ char* shiftd(char cipher_text[], int key)//This is the same as encryption except
 		    ascii -= 32;
 		    islowercase = 1;
 	    }  
-		if (ascii > 64 && ascii < 91)
+		if (ascii > 64 && ascii < 91) // A-Z
 		{
 			ascii = ascii + 65;
 			ascii = (ascii - key) % 26;
@@ -166,7 +166,7 @@ char* shiftd(char cipher_text[], int key)//This is the same as encryption except
 		}
 		else
 		{
-			text[i] = cipher_text[i];
+			text[i] = cipher_text[i]; //Avoids all text not A-Z
 		}
 	}
 	return text;
@@ -202,12 +202,13 @@ char* sube(char keysubuc[], char text[]){
 }
 
 char* subd(char keysubuc[], char cipher_text[]){
-char alphabetuc[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M',  //An array for all letters
-                   'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}; //of the alphabet
-char alphabetlc[26]= {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+char alphabetuc[26]={'A','B','C','D','E','F','G','H','I','J','K','L','M',  //Upper case Alphabet
+                   'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'}; 
+char alphabetlc[26]= {'a','b','c','d','e','f','g','h','i','j','k','l','m', //Lower case alphabet
+                   'n','o','p','q','r','s','t','u','v','w','x','y','z'};
 char keysublc[26];
-strncpy(keysublc, keysubuc, 26);
-lowercase(keysublc);
+strncpy(keysublc, keysubuc, 26); //Creates a copy of the lowercase key
+lowercase(keysublc); //Sends the copy to a function that will make the key lowercase
     int ascii;
     int text_length = strlen(cipher_text);
     char *text = calloc(text_length, 8);
@@ -229,13 +230,10 @@ lowercase(keysublc);
                     continue;
                 }
              }
-            } else if(ascii>96 && ascii<123) {
+        } else if(ascii>96 && ascii<123) {
           for(int j=0; j<26; j++)
             {
-                if(cipher_text[i]==keysublc[j]) //As the for loop runs, it compares the cipher text and 
-                                              //key text till theyre equal. At this point 'j', it means
-                                              //the letters are the same and thus, this letter is in the
-                                              //cipher text.
+                if(cipher_text[i]==keysublc[j]) 
                 {
                     text[i]=alphabetlc[j];//Since keysub[j]=alphabet[j] we can fill the plaintext.
                     break;  
@@ -255,10 +253,9 @@ lowercase(keysublc);
 void lowercase(char keysublc[])
 {
     int i = 0;
-   
-   while (keysublc[i] != '\0') {
+   while (keysublc[i] != '\0') { //While not void
       if (keysublc[i] >= 'A' && keysublc[i] <= 'Z') {
-         keysublc[i] = keysublc[i] + 32;
+         keysublc[i] = keysublc[i] + 32; //This makes it lower case due to ascii values
       }
       i++;
    }
